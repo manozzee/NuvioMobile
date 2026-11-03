@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.chrisbanes.haze.HazeState
 
+import com.nuvio.app.core.ui.glass.PlatformLayerBackdrop
+
 internal actual val floatingNavigationGlowSupported: Boolean
     get() = false
 
@@ -14,6 +16,7 @@ internal actual fun FloatingNavigationBar(
     modifier: Modifier,
     scrollState: NuvioNavBarScrollState?,
     hazeState: HazeState?,
+    backdrop: PlatformLayerBackdrop?,
     contentPadding: PaddingValues,
     compactSize: Boolean,
     glowEnabled: Boolean,

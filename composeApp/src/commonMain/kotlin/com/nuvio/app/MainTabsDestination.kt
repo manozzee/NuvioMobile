@@ -31,6 +31,8 @@ import com.nuvio.app.core.ui.FloatingNavigationBar
 import com.nuvio.app.core.ui.FloatingNavigationItem
 import com.nuvio.app.core.ui.PlatformBackHandler
 import com.nuvio.app.core.ui.rememberNuvioNavBarScrollState
+import com.nuvio.app.core.ui.glass.liquidGlassSource
+import com.nuvio.app.core.ui.glass.rememberPlatformLayerBackdrop
 import com.nuvio.app.features.profiles.NuvioProfile
 import com.nuvio.app.features.profiles.ProfileSwitcherTab
 import com.nuvio.app.features.settings.NavBarStyle
@@ -77,6 +79,7 @@ internal fun MainTabsDestination(
         val tabsRouteActive = rootRouteActive
         val navBarScrollState = rememberNuvioNavBarScrollState()
         val navBarHazeState = rememberHazeState()
+        val navigationBackdrop = rememberPlatformLayerBackdrop()
         val navBarStyleSetting by remember { ThemeSettingsRepository.navBarStyle }.collectAsStateWithLifecycle()
         val navBarGlowEnabled by ThemeSettingsRepository.navBarGlowEnabled.collectAsStateWithLifecycle()
         val floatingNavigationItems = listOf(
@@ -169,6 +172,7 @@ internal fun MainTabsDestination(
                         actions = tabActions,
                         modifier = Modifier
                             .fillMaxSize()
+                            .liquidGlassSource(navigationBackdrop)
                             .then(if (isTabletLayout || navBarStyleSetting != NavBarStyle.CLASSIC) Modifier.hazeSource(state = navBarHazeState) else Modifier)
                             .then(if (navBarStyleSetting == NavBarStyle.ADAPTIVE) Modifier.nestedScroll(navBarScrollState.nestedScrollConnection) else Modifier)
                             .padding(innerPadding),
@@ -181,6 +185,7 @@ internal fun MainTabsDestination(
                         modifier = Modifier.align(Alignment.TopCenter).widthIn(max = 416.dp),
                         scrollState = tabletNavBarScrollState,
                         hazeState = navBarHazeState,
+                        backdrop = navigationBackdrop,
                         contentPadding = PaddingValues(
                             top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 10.dp,
                             bottom = 8.dp,
@@ -201,6 +206,7 @@ internal fun MainTabsDestination(
                         modifier = Modifier.align(Alignment.BottomCenter),
                         scrollState = navBarScrollState,
                         hazeState = navBarHazeState,
+                        backdrop = navigationBackdrop,
                         items = floatingNavigationItems,
                         glowEnabled = navBarGlowEnabled,
                     )

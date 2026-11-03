@@ -529,6 +529,7 @@ private fun MobileSettingsScreen(
     onCollectionsClick: () -> Unit = {},
     onWatchPartyClick: () -> Unit = {},
 ) {
+    val liquidGlassNativeTabBarEnabled by remember { ThemeSettingsRepository.liquidGlassNativeTabBarEnabled }.collectAsStateWithLifecycle()
     val saveableStateHolder = rememberSaveableStateHolder()
     saveableStateHolder.SaveableStateProvider(page.name) {
         var settingsSearchQuery by rememberSaveable { mutableStateOf("") }
@@ -676,6 +677,8 @@ private fun MobileSettingsScreen(
                     onThemeSelected = onThemeSelected,
                     amoledEnabled = amoledEnabled,
                     onAmoledToggle = onAmoledToggle,
+                    liquidGlassEnabled = liquidGlassNativeTabBarEnabled,
+                    onLiquidGlassToggle = ThemeSettingsRepository::setLiquidGlassNativeTabBar,
                     appIconState = appIconState,
                     onAppIconSelected = onAppIconSelected,
                     onAppIconFailureDismissed = onAppIconFailureDismissed,
@@ -871,6 +874,7 @@ private fun TabletSettingsScreen(
     onCollectionsClick: () -> Unit = {},
     onWatchPartyClick: () -> Unit = {},
 ) {
+    val liquidGlassNativeTabBarEnabled by remember { ThemeSettingsRepository.liquidGlassNativeTabBarEnabled }.collectAsStateWithLifecycle()
     var selectedCategory by rememberSaveable { mutableStateOf(SettingsCategory.Look.name) }
     val activeCategory = settingsCategoryForName(selectedCategory)
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
@@ -1077,6 +1081,8 @@ private fun TabletSettingsScreen(
                         onThemeSelected = onThemeSelected,
                         amoledEnabled = amoledEnabled,
                         onAmoledToggle = onAmoledToggle,
+                        liquidGlassEnabled = liquidGlassNativeTabBarEnabled,
+                        onLiquidGlassToggle = ThemeSettingsRepository::setLiquidGlassNativeTabBar,
                         appIconState = appIconState,
                         onAppIconSelected = onAppIconSelected,
                         onAppIconFailureDismissed = onAppIconFailureDismissed,

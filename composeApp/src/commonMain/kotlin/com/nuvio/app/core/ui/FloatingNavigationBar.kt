@@ -9,6 +9,8 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeState
 import org.jetbrains.compose.resources.DrawableResource
 
+import com.nuvio.app.core.ui.glass.PlatformLayerBackdrop
+
 internal class FloatingNavigationItem(
     val label: String,
     val selected: Boolean,
@@ -26,6 +28,7 @@ internal expect fun FloatingNavigationBar(
     modifier: Modifier = Modifier,
     scrollState: NuvioNavBarScrollState? = null,
     hazeState: HazeState? = null,
+    backdrop: PlatformLayerBackdrop? = null,
     contentPadding: PaddingValues = floatingNavigationBarPadding(),
     compactSize: Boolean = false,
     glowEnabled: Boolean = true,

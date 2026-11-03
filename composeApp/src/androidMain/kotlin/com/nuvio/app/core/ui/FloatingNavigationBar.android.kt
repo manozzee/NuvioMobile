@@ -36,6 +36,11 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.nuvio.app.core.ui.glass.GlassBarSurface
+import com.nuvio.app.core.ui.glass.LiquidGlassPreset
+import com.nuvio.app.core.ui.glass.LocalLiquidGlass
+import com.nuvio.app.core.ui.glass.PlatformLayerBackdrop
+import com.nuvio.app.core.ui.glass.isLiquidGlassBackdropSupported
+import com.nuvio.app.core.ui.glass.liquidGlassChrome
 import com.nuvio.app.core.ui.jelly.JellyMotion
 import com.nuvio.app.core.ui.jelly.JellyTabRow
 import com.nuvio.app.core.ui.jelly.JellyTabTargets
@@ -55,6 +60,7 @@ internal actual fun FloatingNavigationBar(
     modifier: Modifier,
     scrollState: NuvioNavBarScrollState?,
     hazeState: HazeState?,
+    backdrop: PlatformLayerBackdrop?,
     contentPadding: PaddingValues,
     compactSize: Boolean,
     glowEnabled: Boolean,
@@ -153,7 +159,18 @@ internal actual fun FloatingNavigationBar(
                                     drawJellyGlow(motion.frame, accentColor.copy(alpha = accentColor.alpha * glowStrength))
                                 },
                         ) {
-                            GlassBarSurface(hazeState, Modifier.matchParentSize(), glowStrength)
+                            if (LocalLiquidGlass.current && backdrop != null && isLiquidGlassBackdropSupported()) {
+                                Box(
+                                    Modifier.matchParentSize().liquidGlassChrome(
+                                        shape = RoundedCornerShape(50),
+                                        enabled = true,
+                                        preset = LiquidGlassPreset.BottomNavigation,
+                                        backdrop = backdrop,
+                                    ),
+                                )
+                            } else {
+                                GlassBarSurface(hazeState, Modifier.matchParentSize(), glowStrength)
+                            }
                         }
                         Box(
                             Modifier.matchParentSize().drawWithContent {
